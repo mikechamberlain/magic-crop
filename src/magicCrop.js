@@ -1,9 +1,6 @@
 'use strict';
 
-
-(function (module) {
-
-    window.MagicCrop = window.MagicCrop || {};
+var MagicCrop = function () {
 
     // Attempts to automatically calculate the cropping bound (minX, minY) -> (maxX, maxY)
     // for the given the ImageData.
@@ -11,25 +8,21 @@
     // To allow this function to be run as a WebWorker, it must be fully self contained, so all dependant
     // functions are defined inside it.  Further, to take advantage of WebWorker transferable objects,
     // its parameters must be primitives.
-    window.MagicCrop.calcCroppingBounds = function (imageBytes, width, height) {
-
-        if (imageBytes.length === 0) {
-            throw new Error('Empty image');
-        }
-
-        if ((width * height) != (imageBytes.length / 4)) {
-            throw new Error('Inconsistent width / height for supplied image data');
-        }
+    this.calcCroppingBounds = function (imageBytes, width, height) {
 
         // The number of potential background color candidates to consider.
         var bgColorCount = 3;
+
         // When calculating the background color, for speed sample only 1 out of every n pixels.
         var bgColorSampleRatio = 100;
+
         // When scanning the image for bounds, do not sample this outer fraction of the image.
         var boundsDetectionPaddingFraction = 0.2;
+
         // When scanning the image for bounds, make this many samples inside the padding.
         var boundsDetectionSampleCount = 15;
-        // If we determine a bound is not the edge of the image, crop an additional number of pixels to avoid anti-aliasing problems.
+
+        // If we determine a bound is not the edge of the image, crop an additional number of pixels to avoid any anti-aliasing artifacts.
         var antiAliasFiddle = 2;
 
         var imageData = {
@@ -37,6 +30,16 @@
             width: width,
             height: height
         };
+
+        if (imageData.data.length === 0) {
+            throw new Error('Empty image');
+        }
+
+        var expectedBytes = width * height * 4;
+        if (expectedBytes != imageData.data.length) {
+            throw new Error('Inconsistent width / height for supplied image data. Expected ' +
+                expectedBytes + ' bytes but received ' + imageData.data.length);
+        }
 
         // Converts a decimal value to a pixel data structure.
         function toPixel(decimal) {
@@ -158,7 +161,7 @@
         // pixel that is considered a background color.  This is assumed to represent a bound.
         function getCroppingBoundFromPosition(imageData, bgColors, x, y) {
             var bgHash = {},
-                minX, minY, maxX, maxY;
+                minX, minY, maxX, maxY, width;
 
             // for efficiency create a hash of our background pixel values
             bgColors.forEach(function (c) {
@@ -167,45 +170,55 @@
 
             function isBgColor(x, y) {
                 var pixel = getPixelAt(imageData, x, y);
-                return !!bgHash[pixel.decimal];
+                return typeof bgHash[pixel.decimal] !== 'undefined';
             }
 
-            // if this pixel is the background color then ignore it
+            // if this pixel is a background color then ignore it
             if (isBgColor(x, y)) {
                 return null;
             }
 
-            // work from this pixel... to the top
-            for (minX = x; minX >= 0; minX--) {
-                if (isBgColor(minX, y)) {
-                    break;
-                }
-            }
-            minX += (1 + (minX > 0 ? antiAliasFiddle : 0));
-
-            // ... to the right
-            for (maxX = x; maxX < imageData.width; maxX++) {
-                if (isBgColor(maxX, y)) {
-                    break;
-                }
-            }
-            maxX -= (1 + (maxX < imageData.width ? antiAliasFiddle : 0));
+            // work from our sample pixel...
 
             // ... to the left
-            for (minY = y; minY >= 0; minY--) {
-                if (isBgColor(x, minY)) {
+            for (minX = x; minX > 0; minX--) {
+                if (isBgColor(minX - 1, y)) {
                     break;
                 }
             }
-            minY += (1 + (minY > 0 ? antiAliasFiddle : 0));
+            if (minX > 0) {
+                minX += antiAliasFiddle;
+            }
+
+            // ... to the right
+            for (maxX = x; maxX < (imageData.width - 1); maxX++) {
+                if (isBgColor(maxX + 1, y)) {
+                    break;
+                }
+            }
+            if (maxX < (imageData.width - 1)) {
+                maxX -= antiAliasFiddle;
+            }
+
+            // ... to the top
+            for (minY = y; minY > 0; minY--) {
+                if (isBgColor(x, minY - 1)) {
+                    break;
+                }
+            }
+            if (minY > 0) {
+                minY += antiAliasFiddle;
+            }
 
             // ... and finally to the bottom
-            for (maxY = y; maxY < imageData.height; maxY++) {
-                if (isBgColor(x, maxY)) {
+            for (maxY = y; maxY < (imageData.height - 1); maxY++) {
+                if (isBgColor(x, maxY + 1)) {
                     break;
                 }
             }
-            maxY -= (1 + (maxY < imageData.height ? antiAliasFiddle : 0));
+            if (maxY < (imageData.height - 1)) {
+                maxY -= antiAliasFiddle;
+            }
 
             return {
                 minX: minX,
@@ -280,17 +293,43 @@
         var bgColors = getBackgroundColors(imageData.data, bgColorCount);
         var bound = getCroppingBound(imageData, bgColors);
 
-        // if we couldn't calculate the bound for some reason (eg. image is too small to do anything with)
+        // if we couldn't calculate one of the bounds for some reason
+        // (eg. image is too small to do anything with)
         // then just return the original size
-        if (!bound.minX || !bound.minY || !bound.maxX || !bound.maxY) {
-            bound = {
-                minX: 0,
-                minY: 0,
-                maxX: imageData.width,
-                maxY: imageData.height
-            };
-        }
+        bound.minX = (typeof bound.minX !== 'undefined' ? bound.minX : 0);
+        bound.minY = (typeof bound.minY !== 'undefined' ? bound.minY : 0);
+        bound.maxX = (typeof bound.maxX !== 'undefined' ? bound.maxX : imageData.width - 1);
+        bound.maxY = (typeof bound.maxY !== 'undefined' ? bound.maxY : imageData.height - 1);
         return bound;
     };
+    
+    // Draws the given HTML Image element onto a new canvas and returns the canvas.
+    this.getImageData = function (imageElem) {
+        var canvas = document.createElement('canvas');
+        canvas.height = imageElem.height;
+        canvas.width = imageElem.width;
+        var context = canvas.getContext('2d');
+        context.drawImage(imageElem, 0, 0);
+        return canvas.getContext('2d').getImageData(0, 0, imageElem.width, imageElem.height)
+    };
 
-})(this);
+    // Draws a bounded region from the given HTML Image element onto a new canvas and returns the canvas.
+    this.cropToCanvas = function (imageElem, bound) {
+        var croppedCanvas = document.createElement('canvas');
+        croppedCanvas.width = bound.maxX - bound.minX + 1;
+        croppedCanvas.height = bound.maxY - bound.minY + 1;
+        croppedCanvas.getContext('2d').drawImage(
+            imageElem,
+            bound.minX,
+            bound.minY,
+            croppedCanvas.width,
+            croppedCanvas.height,
+            0,
+            0,
+            croppedCanvas.width,
+            croppedCanvas.height
+        );
+        return croppedCanvas;
+    };
+    
+};

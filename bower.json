@@ -1,0 +1,26 @@
+{
+  "name": "magic-crop",
+  "description": "Library to automatically extract a photo from a screenshot",
+  "main": "src/magicCrop.js",
+  "authors": [
+    "Mike Chamberlain <mikeachamberlain@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "image",
+    "crop",
+    "photo",
+    "automatic"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+  }
+}

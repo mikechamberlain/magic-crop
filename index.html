@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MagicCrop demo</title>
+    <script src="src/magicCrop.js"></script>
+</head>
+<body>
+
+    <h1>MagicCrop demo</h1>
+    <div class="container">
+        <div>
+            <h2>Original</h2>
+            <p>Screenshot taken on iPhone</p>
+            <img id="original"/>
+        </div>
+        <div>
+            <h2>Cropped</h2>
+            <p>Click the button to detect and extract the photo from the screenshot on the left</p>
+            <button onclick="runDemo()" id="cropButton">Click to MagicCrop</button>
+            <div id="cropTarget"></div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var demoUrl = '../test/images/guardian.png';
+    document.getElementById('original').src = demoUrl;
+    var magicCrop = new MagicCrop();
+
+    function runDemo() {
+        // load the url into a new image object and wait for it to load
+        var imageElem = new Image();
+        imageElem.src = demoUrl;
+        imageElem.onload = function () {
+            doCrop(imageElem);
+        }
+    }
+
+    function doCrop(imageElem) {
+        // calculate the cropping bounds
+        var imageData = magicCrop.getImageData(imageElem);
+        var bound = magicCrop.calcCroppingBounds(imageData.data.buffer, imageData.width, imageData.height);
+
+        // perform the crop
+        var croppedCanvas = magicCrop.cropToCanvas(imageElem, bound);
+
+        // render the cropped image back to the page
+        var croppedImage = new Image();
+        croppedImage.src = croppedCanvas.toDataURL('image/png');
+        document.getElementById('cropTarget').appendChild(croppedImage);
+        document.getElementById('cropButton').style.display = 'none';
+    }
+</script>
+
+<style>
+    body {
+        font-family: "Helvetica Neue",serif;
+    }
+    .container {
+        display: flex;
+
+    }
+    .container > div {
+        width: 50%;
+        padding-right: 30px;
+    }
+    img {
+        width: 100%;
+    }
+    button {
+        font-weight: bold;
+        font-size: 15px;
+        color: white;
+        background-color: forestgreen;
+        border: none;
+        padding: 15px;
+    }
+</style>
+</html>
