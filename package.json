@@ -1,0 +1,33 @@
+{
+  "name": "magic-crop",
+  "version": "1.0.0",
+  "description": "Library to automatically crop and extract a photo from a larger image",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-karma": "0.0.5",
+    "karma": "^0.13.22",
+    "karma-chai": "^0.1.0",
+    "karma-mocha": "^0.2.2",
+    "karma-requirejs": "^0.2.6",
+    "mocha": "^2.4.5",
+    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.7",
+    "requirejs": "^2.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "image",
+    "crop",
+    "photo",
+    "automatic"
+  ],
+  "author": "Mike Chamberlain",
+  "license": "MIT"
+}
