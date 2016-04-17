@@ -99,7 +99,7 @@ describe('calcCroppingBounds', function () {
         expect(bound.maxY).to.equal(194);
     });
 
-    it('should detect bounds for image for a real screenshot', function () {
+    it('should detect bounds for a real screenshot', function () {
         var magicCrop = new MagicCrop();
         var image = new Image();
         image.src = testImages.guardian;
