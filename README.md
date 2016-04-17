@@ -33,7 +33,7 @@ function crop(imageElem) {
     // perform the crop
     var croppedCanvas = magicCrop.cropToCanvas(imageElem, bound);
 
-    // render the cropped image somewhere
+    // do something with the cropped canvas
     var croppedImage = new Image();
     croppedImage.src = croppedCanvas.toDataURL('image/png');
 }
@@ -70,6 +70,8 @@ npm run test
 The tests will run and watch for changes.
 Crop Magic iPhone App
 ---------------------
-![Crop Magic](http://a5.mzstatic.com/us/r30/Purple49/v4/07/91/99/07919938-f8b7-a188-159d-b213ac6ad877/icon175x175.png)
+The MagicCrop library powers the [Crop Magic](https://itunes.apple.com/us/app/crop-magic/id1061397658?mt=8) iPhone application.
 
-The MagicCrop library powers the [Crop Magic](https://itunes.apple.com/us/app/crop-magic/id1061397658?mt=8) iPhone application. 
+[![Available on the App Store](https://raw.githubusercontent.com/mikechamberlain/magic-crop/master/test/images/app-store.png)](https://itunes.apple.com/us/app/crop-magic/id1061397658?mt=8)
+
+ 
