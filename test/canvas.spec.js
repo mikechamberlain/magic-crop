@@ -4,6 +4,7 @@ describe('canvas utilities', function () {
 
         it('should be defined', function () {
             var magicCrop = new MagicCrop();
+            
             expect(magicCrop.getImageData).to.be.a('Function');
         });
 
@@ -23,10 +24,12 @@ describe('canvas utilities', function () {
 
         it('should be defined', function () {
             var magicCrop = new MagicCrop();
+
             expect(magicCrop.cropToCanvas).to.be.a('Function');
         });
 
         it('should draw a cropped canvas from an Image element', function () {
+            var magicCrop = new MagicCrop();
             var image = new Image();
             image.src = window.testImages.singleColor;
             var bound = {
@@ -36,7 +39,6 @@ describe('canvas utilities', function () {
                 maxY: 20
             };
 
-            var magicCrop = new MagicCrop();
             var canvas = magicCrop.cropToCanvas(image, bound);
 
             expect(canvas.width).to.equal(11);
@@ -44,6 +46,7 @@ describe('canvas utilities', function () {
         });
 
         it('should crop a single pixel', function () {
+            var magicCrop = new MagicCrop();
             var image = new Image();
             image.src = window.testImages.singleColor;
             var bound = {
@@ -53,7 +56,6 @@ describe('canvas utilities', function () {
                 maxY: 0
             };
 
-            var magicCrop = new MagicCrop();
             var canvas = magicCrop.cropToCanvas(image, bound);
 
             expect(canvas.width).to.equal(1);

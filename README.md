@@ -44,20 +44,24 @@ Then use the library as follows:
     }
 Demo
 ----
-Install dev dependencies, then run the demo:
+Clone, install dev dependencies, then run the demo:
 
     git clone https://github.com/mikechamberlain/magic-crop.git
+    cd magic-crop
     npm install
     npm run demo
 
 The `index.html` page will open in your browser.
 Development
 -----------
-Install dev dependencies, then run the tests:
+Clone, install dev dependencies, then run the tests:
 
-    https://github.com/mikechamberlain/magic-crop.git
+    git clone https://github.com/mikechamberlain/magic-crop.git
+    cd magic-crop
     npm install
     npm run test
+    
+The tests will run and watch for changes.
 Crop Magic iPhone App
 ---------------------
 ![Crop Magic](http://a5.mzstatic.com/us/r30/Purple49/v4/07/91/99/07919938-f8b7-a188-159d-b213ac6ad877/icon175x175.png)
