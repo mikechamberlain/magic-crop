@@ -1,7 +1,7 @@
 MagicCrop
 =========
 
-A JavaScript library to automatically detect and extract a photo from a screenshot. 
+A JavaScript library to automatically detect and extract a photo from a screenshot.
 
 ![Extraction](https://raw.githubusercontent.com/mikechamberlain/magic-crop/master/test/images/extracted.jpg)
 
@@ -18,15 +18,9 @@ Add a reference to the MagicCrop script:
 
 Then use the library as follows:
 
-    // load the url into a new image object
-    var imageElem = new Image();
-    imageElem.src = 'screenshotToCrop.png';
-    
-    // wait for it to load
-    imageElem.onload = function () {
-    
+    function crop(imageElem) {
         var magicCrop = new MagicCrop();
-        
+            
         // get the image data
         var imageData = magicCrop.getImageData(imageElem);
         
@@ -40,10 +34,19 @@ Then use the library as follows:
         var croppedImage = new Image();
         croppedImage.src = croppedCanvas.toDataURL('image/png');
     }
+        
+    // load the URL to crop into an HTML Image element
+    var imageElem = new Image();
+    imageElem.src = 'screenshotToCrop.png';
+    imageElem.onload = function () {
+        // crop it once it's loaded
+        crop(imageElem);
+    }
 Demo
 ----
 Install dev dependencies, then run the demo:
 
+    git clone https://github.com/mikechamberlain/magic-crop.git
     npm install
     npm run demo
 
@@ -52,6 +55,7 @@ Development
 -----------
 Install dev dependencies, then run the tests:
 
+    https://github.com/mikechamberlain/magic-crop.git
     npm install
     npm run test
 Crop Magic iPhone App
