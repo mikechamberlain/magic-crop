@@ -10,14 +10,6 @@ Installation
 Install from bower:
 
 `bower install magic-crop`
-Demo
-----
-Install dev dependencies, then run the demo:
-
-    npm install
-    npm run demo
-
-The `index.html` page will open in your browser.
 Usage
 -----
 Add a reference to the MagicCrop script:
@@ -48,13 +40,20 @@ Then use the library as follows:
         var croppedImage = new Image();
         croppedImage.src = croppedCanvas.toDataURL('image/png');
     }
+Demo
+----
+Install dev dependencies, then run the demo:
 
+    npm install
+    npm run demo
+
+The `index.html` page will open in your browser.
 Development
 -----------
 Install dev dependencies, then run the tests:
 
     npm install
-    npm run tests
+    npm run test
 Crop Magic iPhone App
 ---------------------
 ![Crop Magic](http://a5.mzstatic.com/us/r30/Purple49/v4/07/91/99/07919938-f8b7-a188-159d-b213ac6ad877/icon175x175.png)

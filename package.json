@@ -14,7 +14,7 @@
     "mocha": "^2.4.5"
   },
   "scripts": {
-    "tests": "karma start",
+    "test": "karma start",
     "demo": "lite-server"
   },
   "keywords": [
@@ -24,5 +24,9 @@
     "automatic"
   ],
   "author": "Mike Chamberlain <mikeachamberlain@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikechamberlain/magic-crop.git"
+  }
 }
