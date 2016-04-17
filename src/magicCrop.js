@@ -3,7 +3,14 @@
 var MagicCrop = function () {
 
     // Attempts to automatically calculate the cropping bound (minX, minY) -> (maxX, maxY)
-    // for the given the ImageData.
+    // for the given the ImageData that contains a photo somewhere.
+    //
+    // Algorithm is:
+    // 1. Calculate most popular colors across the entire image. These are our background colors.
+    // 2. Sample a bunch of points across the image and work towards each edge, looking for a background color calculated in 1.
+    // 3. When we find a background color pixel, or we hit the edge, store this value as a potential bound.
+    // 4. From the potential bounds calculated in 3, choose the most popular to represent our final crop region.
+    // 5. Apply this crop region to our original image.
     //
     // To allow this function to be run as a WebWorker, it must be fully self contained, so all dependant
     // functions are defined inside it.  Further, to take advantage of WebWorker transferable objects,

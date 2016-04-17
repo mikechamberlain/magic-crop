@@ -68,6 +68,17 @@ npm install
 npm run test
 ```
 The tests will run and watch for changes.
+
+How it works
+------------
+High level overview of the algorithm:
+
+1. Calculate most popular colors across the entire image. These are our background colors.
+2. Sample a bunch of points across the image and work towards each edge, looking for a background color found in 1.
+3. When we find a background color pixel, or we hit the edge, store this value as a potential bound.
+4. From the potential bounds calculated in 3, choose the most popular to represent our final crop region.
+5. Apply this crop region to our original image.
+
 Crop Magic iPhone App
 ---------------------
 The MagicCrop library powers the [Crop Magic](https://itunes.apple.com/us/app/crop-magic/id1061397658?mt=8) iPhone application.
