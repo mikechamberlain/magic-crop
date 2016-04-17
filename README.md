@@ -16,7 +16,9 @@ Usage
 -----
 Add a reference to the MagicCrop script:
  
-`<script src="bower_components/magic-crop/src/magicCrop.js></script>`
+```html
+<script src="bower_components/magic-crop/src/magicCrop.js></script>
+```
 
 Then use the library as follows:
 
