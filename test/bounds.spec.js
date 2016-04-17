@@ -26,7 +26,7 @@ describe('calcCroppingBounds', function () {
         expect(f).to.throw('Inconsistent');
     });
     
-    it('should crop to original size for a single pixel image', function () {
+    it('should crop to original size for an image with a single pixel', function () {
         var magicCrop = new MagicCrop();
         var imageBytes = [0, 0, 0, 0];
 
@@ -52,7 +52,7 @@ describe('calcCroppingBounds', function () {
         expect(bound.maxY).to.equal(image.height - 1);
     });
 
-    it('should crop to stripe for horizontal stripe', function () {
+    it('should crop photo from image with borders on top and bottom', function () {
         var magicCrop = new MagicCrop();
         var image = new Image();
         image.src = testImages.horizontalStripe;
@@ -66,7 +66,7 @@ describe('calcCroppingBounds', function () {
         expect(bound.maxY).to.equal(220);
     });
 
-    it('should crop to stripe for vertical stripe', function () {
+    it('should crop photo from image with borders on sides', function () {
         var magicCrop = new MagicCrop();
         var image = new Image();
         image.src = testImages.verticalStripe;
@@ -80,7 +80,7 @@ describe('calcCroppingBounds', function () {
         expect(bound.maxY).to.equal(image.height - 1);
     });
 
-    it('should crop to image for bordered image', function () {
+    it('should crop photo from image bordered on all sides', function () {
         var magicCrop = new MagicCrop();
         var image = new Image();
         image.src = testImages.bordered;
