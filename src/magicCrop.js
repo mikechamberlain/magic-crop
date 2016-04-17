@@ -10,21 +10,20 @@ var MagicCrop = function () {
     // its parameters must be primitives.
     this.calcCroppingBounds = function (imageBytes, width, height) {
 
+        // todo: make these values configurable.
+
         // The number of potential background color candidates to consider.
         var bgColorCount = 3;
-
         // When calculating the background color, for speed sample only 1 out of every n pixels.
         var bgColorSampleRatio = 100;
-
         // When scanning the image for bounds, do not sample this outer fraction of the image.
         var boundsDetectionPaddingFraction = 0.2;
-
         // When scanning the image for bounds, make this many samples inside the padding.
         var boundsDetectionSampleCount = 15;
-
         // If we determine a bound is not the edge of the image, crop an additional number of pixels to avoid any anti-aliasing artifacts.
         var antiAliasFiddle = 2;
 
+        // reconstruct the ImageData object that we had to pass in as primitives
         var imageData = {
             data: new Uint8ClampedArray(imageBytes),
             width: width,
@@ -89,13 +88,18 @@ var MagicCrop = function () {
             return b - a;
         }
 
+        // returns a default for an undefined value
+        function defaultIfUndefined(val, def) {
+            return typeof val === 'undefined' ? def : val;
+        }
+
         // Takes a hash of values against their frequency and returns the most frequently occurring values.
         function calculateModes(frequencyHash, countLimit, transform) {
             var values = [], most = 0, results = [], i;
 
             transform = transform || function (x) {
-                    return x;
-                };
+                return x;
+            };
 
             // create an array of the counts
             Object.keys(frequencyHash).forEach(function (key) {
@@ -228,7 +232,7 @@ var MagicCrop = function () {
             };
         }
 
-        // Given an image length and the desired number of samples, returns an array of evenly
+        // Given a length and the desired number of samples, returns an array of evenly
         // spaced coordinates along the length, ignoring any padding.
         function getSampleCoords(length, sampleCount, padding) {
             var start = padding * length;
@@ -244,7 +248,7 @@ var MagicCrop = function () {
         }
 
         // Attempts to automatically determine the cropping bounds of an image, using the specified
-        // background color and number of samples.
+        // background color(s) and number of samples.
         function getCroppingBound(imageData, bgColors) {
             var bounds = [];
             var result = {};
@@ -261,10 +265,12 @@ var MagicCrop = function () {
                 });
             });
 
-            // decide on our cropping bound from the most frequently occurring values
+            // from the potentials calculated above, work out the most frequently occurring
+            // bound for minX, minY, maxX and maxY
             ['min', 'max'].forEach(function (limit) {
                 ['X', 'Y'].forEach(function (dimension) {
 
+                    // build frequency hash of our potential bounds
                     var key = limit + dimension,
                         frequencyHash = {},
                         modes;
@@ -296,10 +302,10 @@ var MagicCrop = function () {
         // if we couldn't calculate one of the bounds for some reason
         // (eg. image is too small to do anything with)
         // then just return the original size
-        bound.minX = (typeof bound.minX !== 'undefined' ? bound.minX : 0);
-        bound.minY = (typeof bound.minY !== 'undefined' ? bound.minY : 0);
-        bound.maxX = (typeof bound.maxX !== 'undefined' ? bound.maxX : imageData.width - 1);
-        bound.maxY = (typeof bound.maxY !== 'undefined' ? bound.maxY : imageData.height - 1);
+        bound.minX = defaultIfUndefined(bound.minX, 0);
+        bound.minY = defaultIfUndefined(bound.minY, 0);
+        bound.maxX = defaultIfUndefined(bound.maxX, imageData.width - 1);
+        bound.maxY = defaultIfUndefined(bound.maxY, imageData.height - 1);
         return bound;
     };
     
