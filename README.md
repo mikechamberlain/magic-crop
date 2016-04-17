@@ -9,7 +9,9 @@ Installation
 ------------
 Install from bower:
 
-`bower install magic-crop`
+```shell
+bower install magic-crop
+```
 Usage
 -----
 Add a reference to the MagicCrop script:
@@ -18,49 +20,53 @@ Add a reference to the MagicCrop script:
 
 Then use the library as follows:
 
-    function crop(imageElem) {
-        var magicCrop = new MagicCrop();
-            
-        // get the image data
-        var imageData = magicCrop.getImageData(imageElem);
+```javascript
+function crop(imageElem) {
+    var magicCrop = new MagicCrop();
         
-        // calculate the cropping bounds
-        var bound = magicCrop.calcCroppingBounds(imageData.data.buffer, imageData.width, imageData.height);
+    // get the image data
+    var imageData = magicCrop.getImageData(imageElem);
+    
+    // calculate the cropping bounds
+    var bound = magicCrop.calcCroppingBounds(imageData.data.buffer, imageData.width, imageData.height);
 
-        // perform the crop
-        var croppedCanvas = magicCrop.cropToCanvas(imageElem, bound);
+    // perform the crop
+    var croppedCanvas = magicCrop.cropToCanvas(imageElem, bound);
 
-        // render the cropped image somewhere
-        var croppedImage = new Image();
-        croppedImage.src = croppedCanvas.toDataURL('image/png');
-    }
-        
-    // load the URL to crop into an HTML Image element
-    var imageElem = new Image();
-    imageElem.src = 'screenshotToCrop.png';
-    imageElem.onload = function () {
-        // crop it once it's loaded
-        crop(imageElem);
-    }
+    // render the cropped image somewhere
+    var croppedImage = new Image();
+    croppedImage.src = croppedCanvas.toDataURL('image/png');
+}
+    
+// load the URL to crop into an HTML Image element
+var imageElem = new Image();
+imageElem.src = 'screenshotToCrop.png';
+imageElem.onload = function () {
+    crop(imageElem);
+}
+```
 Demo
 ----
 Clone, install dev dependencies, then run the demo:
 
-    git clone https://github.com/mikechamberlain/magic-crop.git
-    cd magic-crop
-    npm install
-    npm run demo
+```shell
+git clone https://github.com/mikechamberlain/magic-crop.git
+cd magic-crop
+npm install
+npm run demo
+```
 
 The `index.html` page will open in your browser.
 Development
 -----------
 Clone, install dev dependencies, then run the tests:
 
-    git clone https://github.com/mikechamberlain/magic-crop.git
-    cd magic-crop
-    npm install
-    npm run test
-    
+```shell
+git clone https://github.com/mikechamberlain/magic-crop.git
+cd magic-crop
+npm install
+npm run test
+```
 The tests will run and watch for changes.
 Crop Magic iPhone App
 ---------------------
