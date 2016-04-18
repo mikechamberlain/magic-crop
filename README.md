@@ -13,8 +13,15 @@ The algorithm is application agnostic and has been tested with screenshots taken
 
 Installation
 ------------
-bower: `bower install magic-crop`
-npm: `npm install magic-crop`
+```shell
+bower install magic-crop
+```
+
+or
+
+```shell
+npm install magic-crop
+```
 
 Usage
 -----
