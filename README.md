@@ -16,6 +16,10 @@ Installation
 ```shell
 bower install magic-crop
 ```
+ 
+```html
+<script src="bower_components/magic-crop/src/magicCrop.js></script>
+```
 
 or
 
@@ -23,15 +27,12 @@ or
 npm install magic-crop
 ```
 
-Usage
------
-Add a reference to the MagicCrop script:
- 
-```html
-<script src="bower_components/magic-crop/src/magicCrop.js></script>
+```javascript
+var MagicCrop = require('magic-crop')
 ```
 
-Then use the library as follows:
+Usage
+-----
 
 ```javascript
 function crop(imageElem) {
