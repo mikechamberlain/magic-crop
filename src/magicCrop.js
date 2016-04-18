@@ -346,3 +346,7 @@ var MagicCrop = function () {
     };
     
 };
+
+if (typeof module !== 'undefined') {
+    module.exports = MagicCrop;
+}
