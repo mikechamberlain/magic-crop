@@ -1,8 +1,8 @@
 {
   "name": "magic-crop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Library to automatically extract a photo from a screenshot",
-  "main": "src/magicCrop.js",
+  "main": "src/index.js",
   "devDependencies": {
     "chai": "^3.5.0",
     "karma": "^0.13.22",

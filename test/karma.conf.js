@@ -1,8 +1,6 @@
 // Karma configuration
 // Generated on Sun Apr 17 2016 13:12:35 GMT+1000 (AEST)
 
-exports = {};
-
 module.exports = function (config) {
     config.set({
 
@@ -15,7 +13,7 @@ module.exports = function (config) {
         
         // list of files / patterns to load in the browser
         files: [
-            '../src/**/*.js',
+            '../src/magicCrop.js',
             './testData.js',
             './**/*.spec.js'
         ],
