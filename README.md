@@ -13,11 +13,9 @@ The algorithm is application agnostic and has been tested with screenshots taken
 
 Installation
 ------------
-Install from bower:
+bower: `bower install magic-crop`
+npm: `npm install magic-crop`
 
-```shell
-bower install magic-crop
-```
 Usage
 -----
 Add a reference to the MagicCrop script:
