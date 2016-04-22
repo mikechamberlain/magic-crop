@@ -85,7 +85,7 @@ The tests will run and watch for changes.
 
 How it works
 ------------
-Attempts to automatically calculate the cropping bound `{ minX, minY, maxX, maxY }`
+`MagicCrop.calcCroppingBounds()` attempts to automatically calculate the cropping bound `{ minX, minY, maxX, maxY }`
 for the given the [ImageData](https://developer.mozilla.org/en/docs/Web/API/ImageData) that contains a photo within.
 
 Algorithm is:
