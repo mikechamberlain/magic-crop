@@ -7,7 +7,7 @@ Why use this? Many apps don't allow you to save images to your camera roll. You 
 
 This library attempts to automate that process.  Give it a screenshot containing a photo, and it will detect the cropping bounds of the photo and output a new HTML Canvas element containing the cropped image.
 
-The algorithm is application agnostic and has been tested with screenshots taken from many different apps.
+The algorithm is application/image agnostic and has been tested with screenshots taken from many different apps.
 
 ![Extraction](https://raw.githubusercontent.com/mikechamberlain/magic-crop/master/test/images/extracted.jpg)
 
