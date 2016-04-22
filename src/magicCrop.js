@@ -3,18 +3,25 @@
 var MagicCrop = function () {
 
     // Attempts to automatically calculate the cropping bound { minX, minY, maxX, maxY }
-    // for the given the ImageData that somewhere contains a photo.
+    // for the given the ImageData (https://developer.mozilla.org/en/docs/Web/API/ImageData) that contains a photo within.
     //
     // Algorithm is:
-    // 1. Calculate most popular colors across the entire image. These are our background colors.
-    // 2. Sample a bunch of points around the image, and from *each* point work towards *each* edge.
-    // 3. If we see a background color, or we hit the edge, store this value as a potential bound for that edge.
-    // 4. From the potential bounds calculated in 3, choose the most popular to represent our final crop region.
+    // 1. Calculate the most popular 3 colors across the entire image. Consider these our *background* colors.
+    // 2. Sample some "randomly" distributed points around the image, and from each point work in all four directions towards each edge.
+    // 3. If, in any direction, we hit a *background color*, OR we make it to the *edge*, then store this as a potential cropping bound for that direction.
+    // 4. For each of the 4 potential bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
     // 5. Apply this crop region to our original image.
     //
-    // To allow this function to be run as a WebWorker, it must be fully self contained, so all dependant
-    // functions are defined inside it.  Further, to take advantage of WebWorker transferable objects,
-    // its parameters must be primitives.
+    // In the iOS Crop Magic app this function is called from an Angular Webworker as described here:
+    // https://github.com/mattslocum/ng-webworker
+    // This means it's advantageous to:
+    // 1. be *Fully self contained*, so all dependent functions are defined inside it, and
+    // 2. take advantage of *WebWorker transferable objects*: http://w3c.github.io/html/infrastructure.html#transferable-objects.
+    // 3. This allows us to pass off the processing of each image to a backgound WebWorker...
+    // 4. ...so we can try to show a *semi-decent GPU accelerated* CSS spinner as the image processing animation
+    // (with admitted stutter as the image is transferred to and from the background thread!).
+    //
+    // Yes! This is our API these days!
     this.calcCroppingBounds = function (imageBytes, width, height) {
 
         // todo: make these values configurable.
