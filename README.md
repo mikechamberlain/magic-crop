@@ -35,6 +35,13 @@ Usage
 -----
 
 ```javascript
+// load the URL to crop into an HTML Image element
+var imageElem = new Image();
+imageElem.src = 'screenshotToCrop.png';
+imageElem.onload = function () {
+    crop(imageElem);
+}
+
 function crop(imageElem) {
     var magicCrop = new MagicCrop();
         
@@ -50,13 +57,6 @@ function crop(imageElem) {
     // do something with the cropped canvas
     var croppedImage = new Image();
     croppedImage.src = croppedCanvas.toDataURL('image/png');
-}
-    
-// load the URL to crop into an HTML Image element
-var imageElem = new Image();
-imageElem.src = 'screenshotToCrop.png';
-imageElem.onload = function () {
-    crop(imageElem);
 }
 ```
 Demo
