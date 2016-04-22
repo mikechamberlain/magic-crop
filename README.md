@@ -88,7 +88,7 @@ How it works
 High level overview of the algorithm:
 
 Attempts to automatically calculate the cropping bound `{ minX, minY, maxX, maxY }`
-for the given the `ImageData` (https://developer.mozilla.org/en/docs/Web/API/ImageData) that contains a photo within.
+for the given the `[ImageData](https://developer.mozilla.org/en/docs/Web/API/ImageData)` that contains a photo within.
 
 Algorithm is:
  1. Calculate the 3 most popular colors across the entire image. Consider these our *background colors*.
