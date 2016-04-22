@@ -91,11 +91,11 @@ Attempts to automatically calculate the cropping bound `{ minX, minY, maxX, maxY
 for the given the ImageData (https://developer.mozilla.org/en/docs/Web/API/ImageData) that contains a photo within.
 
 Algorithm is:
-1. Calculate the 3 most popular colors across the entire image. Consider these our *background colors*.
-2. Sample some "randomly" distributed points around the image, and from each point work in all four directions towards each edge.
-3. If, in any direction, we hit a *background color*, OR we make it to the *edge*, then store this as a potential cropping bound for that direction.
-4. For each of the 4 potential bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
-5. Apply this crop region to our original image.
+ 1. Calculate the 3 most popular colors across the entire image. Consider these our *background colors*.
+ 2. Sample some "randomly" distributed points around the image, and from each point work in all four directions towards each edge.
+ 3. If, in any direction, we hit a *background color*, OR we make it to the *edge*, then store this as a potential cropping bound for that direction.
+ 4. For each of the 4 potential bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
+ 5. Apply this crop region to our original image.
     
 Crop Magic iPhone App
 ---------------------
