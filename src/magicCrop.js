@@ -24,15 +24,16 @@ var MagicCrop = function () {
     // Yes! This is our API these days!
     this.calcCroppingBounds = function (imageBytes, width, height) {
 
-        // todo: make these values configurable.
+        // todo: Make these maguc numbers configurable? Through trial and error they work well for the general case...
 
         // The number of potential background color candidates to consider.
         var bgColorCount = 3;
-        // When calculating the background color, for speed sample only 1 out of every n pixels.
+        // When calculating the background color(s), for speed sample only 1 out of every n pixels - it's all the same really.
         var bgColorSampleRatio = 100;
-        // When scanning the image for bounds, do not sample this outer fraction of the image.
+        // When scanning the image for bounds, do not sample this outer fraction of the image, cos that's usually where the solid
+        // headers/footers lie.
         var boundsDetectionPaddingFraction = 0.2;
-        // When scanning the image for bounds, make this many samples inside the padding.
+        // When scanning the image for bounds, make this many samples inside the padding described above.
         var boundsDetectionSampleCount = 15;
         // If we determine a bound is not the edge of the image, crop an additional number of pixels to avoid any anti-aliasing artifacts.
         var antiAliasFiddle = 2;
@@ -54,7 +55,7 @@ var MagicCrop = function () {
                 expectedBytes + ' bytes but received ' + imageData.data.length);
         }
 
-        // Converts a decimal value to a pixel data structure.
+        // Converts a decimal value to a pixel data structure. 'decimal' is a really bad name.
         function toPixel(decimal) {
             return {
                 r: decimal >>> 24 & 0xFF,
@@ -102,7 +103,7 @@ var MagicCrop = function () {
             return b - a;
         }
 
-        // returns a default for an undefined value
+        // Returns the supplied default undefined value.
         function defaultIfUndefined(val, def) {
             return typeof val === 'undefined' ? def : val;
         }
@@ -143,7 +144,7 @@ var MagicCrop = function () {
             return results;
         }
 
-        // Scans the image to work out the most likely candidates for the background color.
+        // Scans the image to work out the most likely no. of bgColorCount candidates for the background color.
         function getBackgroundColors(bytes, bgColorCount) {
             var frequencyHash = {};
             var result, i, pixel, modes;
@@ -169,7 +170,7 @@ var MagicCrop = function () {
             modes = calculateModes(frequencyHash, bgColorCount, transform)
                 .map(map);
 
-            // flatten the modes into a single array and truncate if necessary
+            // flatten the modes into a single array, and truncate if necessary
             result = [].concat.apply([], modes)
                 .slice(0, bgColorCount);
             return result;
@@ -181,7 +182,7 @@ var MagicCrop = function () {
             var bgHash = {},
                 minX, minY, maxX, maxY, width;
 
-            // for efficiency create a hash of our background pixel values
+            // for efficiency, create a hash of our background pixel values
             bgColors.forEach(function (c) {
                 bgHash[c.decimal] = true;
             });
@@ -304,6 +305,8 @@ var MagicCrop = function () {
                     // or the further down or right for max
                     modes.sort(limit === 'min' ? asc : desc);
                     result[key] = modes[0];
+                    
+                    // that's some really hairy sh.t... I'm not sure I understand it myself or if it's even a good solution
                 });
             });
 
@@ -313,13 +316,13 @@ var MagicCrop = function () {
         var bgColors = getBackgroundColors(imageData.data, bgColorCount);
         var bound = getCroppingBound(imageData, bgColors);
 
-        // if we couldn't calculate one of the bounds for some reason
-        // (eg. image is too small to do anything with)
-        // then just return the original size
+        // if we couldn't calculate one of the bounds for some reason (eg. image is too
+        // small to do anything with) then just return the image at its original size
         bound.minX = defaultIfUndefined(bound.minX, 0);
         bound.minY = defaultIfUndefined(bound.minY, 0);
         bound.maxX = defaultIfUndefined(bound.maxX, imageData.width - 1);
         bound.maxY = defaultIfUndefined(bound.maxY, imageData.height - 1);
+        // this feels all wrong!
         return bound;
     };
     
@@ -333,7 +336,7 @@ var MagicCrop = function () {
         return canvas.getContext('2d').getImageData(0, 0, imageElem.width, imageElem.height)
     };
 
-    // Draws a bounded region from the given HTML Image element onto a new canvas and returns the canvas.
+    // Draws a (cropped) bounded region from the given HTML Image element onto a new canvas and returns the canvas.
     this.cropToCanvas = function (imageElem, bound) {
         var croppedCanvas = document.createElement('canvas');
         croppedCanvas.width = bound.maxX - bound.minX + 1;
