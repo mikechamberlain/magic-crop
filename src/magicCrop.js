@@ -335,7 +335,7 @@ var MagicCrop = function () {
         return canvas.getContext('2d').getImageData(0, 0, imageElem.width, imageElem.height)
     };
 
-    // Draws a (cropped) bounded region from the given HTML Image element onto a new canvas and returns the canvas.
+    // Draws a (cropped) bounded region from the given Image element onto a new canvas and returns the canvas.
     this.cropToCanvas = function (imageElem, bound) {
         var croppedCanvas = document.createElement('canvas');
         croppedCanvas.width = bound.maxX - bound.minX + 1;
