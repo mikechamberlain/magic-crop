@@ -33,7 +33,7 @@ var MagicCrop = function () {
         // When scanning the image for bounds, do not sample this outer fraction of the image, cos that's usually where the solid
         // headers/footers lie.
         var boundsDetectionPaddingFraction = 0.2;
-        // When scanning the image for bounds, make this many samples inside the padding described above.
+        // When scanning the image for bounds, take this many samples inside the padding described above.
         var boundsDetectionSampleCount = 15;
         // If we determine a bound is not the edge of the image, crop an additional number of pixels to avoid any anti-aliasing artifacts.
         var antiAliasFiddle = 2;
