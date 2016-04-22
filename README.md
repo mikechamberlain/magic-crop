@@ -94,6 +94,8 @@ Algorithm is:
  3. If, in any direction, we hit a *background color*, OR we make it to the *edge*, then store this as a potential cropping bound for that direction.
  4. For each of the 4 potential directional bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
  5. Apply this crop region to our original image.
+ 
+ Take a look at the questionable [code](https://github.com/mikechamberlain/magic-crop/blob/master/src/magicCrop.js) for more details.
     
 Crop Magic iPhone App
 ---------------------
