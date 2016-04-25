@@ -9,7 +9,7 @@ var MagicCrop = function () {
     // 1. Calculate the 3 most popular colors across the entire image. Consider these our *background colors*.
     // 2. Sample some "randomly" distributed points around the image, and from each point work in all four directions towards each edge.
     // 3. If, in any direction, we hit a *background color*, OR we make it to the *edge*, then store this as a potential cropping bound for that direction.
-    // 4. For each of the 4 potential bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
+    // 4. From each of the 4 sets of potential bounds calculated above, choose the most popular (mode) from each. These describe our final crop region.
     // 5. Apply this crop region to our original image.
     //
     // In the iOS Crop Magic app, this function is called from some seriously bad ass Angular Webworker library, as described here:
@@ -17,19 +17,16 @@ var MagicCrop = function () {
     // For use with this library, it's required/advantageous if our background function:
     // 1. is *fully self contained*, so all dependent functions are defined inside it, and
     // 2. can take advantage of *WebWorker transferable objects*: http://w3c.github.io/html/infrastructure.html#transferable-objects.
-    //
-    // This allows us to pass off the cropping of each image to a backgound WebWorker, and all so we can try to show 
-    // a *semi-decent GPU accelerated* CSS spinner as the image processing animation...
-    // (...with admitted stutter as the image is transferred to and from the background thread!).
+    // This allows us to process the cropping of each image in the backgound, keeping the UI responsive.
     this.calcCroppingBounds = function (imageBytes, width, height) {
 
-        // todo: Make these maguc numbers configurable? Through trial and error they work well for the general case...
+        // todo: Make these magic numbers configurable? Through trial and error they work well for the general case...
 
         // The number of potential background color candidates to consider.
         var bgColorCount = 3;
         // When calculating the background color(s), for speed sample only 1 out of every n pixels - it's all the same really.
         var bgColorSampleRatio = 100;
-        // When scanning the image for bounds, do not sample this outer fraction of the image, cos that's usually where the solid
+        // When scanning the image for bounds, do not sample this outer fraction of the image. This is usually where the solid
         // headers/footers lie.
         var boundsDetectionPaddingFraction = 0.2;
         // When scanning the image for bounds, take this many samples inside the padding described above.
