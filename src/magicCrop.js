@@ -99,7 +99,7 @@ var MagicCrop = function () {
             return b - a;
         }
 
-        // Returns the supplied default undefined value.
+        // Returns the supplied default for an undefined value.
         function defaultIfUndefined(val, def) {
             return typeof val === 'undefined' ? def : val;
         }
@@ -302,7 +302,7 @@ var MagicCrop = function () {
                     modes.sort(limit === 'min' ? asc : desc);
                     result[key] = modes[0];
                     
-                    // that's some really hairy sh.t... I'm not sure I understand it myself or if it's even a good solution
+                    // that's some really hairy sh.t... there is probably a more elegant way of doing it
                 });
             });
 
@@ -329,7 +329,7 @@ var MagicCrop = function () {
         canvas.width = imageElem.width;
         var context = canvas.getContext('2d');
         context.drawImage(imageElem, 0, 0);
-        return canvas.getContext('2d').getImageData(0, 0, imageElem.width, imageElem.height)
+        return context.getImageData(0, 0, imageElem.width, imageElem.height)
     };
 
     // Draws a (cropped) bounded region from the given Image element onto a new canvas and returns the canvas.
