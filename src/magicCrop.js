@@ -12,12 +12,14 @@ var MagicCrop = function () {
     // 4. From each of the 4 sets of potential bounds calculated above, choose the most popular (mode) from each. These describe our final crop region.
     // 5. Apply this crop region to our original image.
     //
-    // In the iOS Crop Magic app, this function is called from some seriously bad ass Angular Webworker library, as described here:
+    // In the iOS Crop Magic app, this function is called from the Angular Webworker library, as described here:
     // https://github.com/mattslocum/ng-webworker
-    // For use with this library, it's required/advantageous if our background function:
+    // For use with this library, it's required that our background function:
     // 1. is *fully self contained*, so all dependent functions are defined inside it, and
     // 2. can take advantage of *WebWorker transferable objects*: http://w3c.github.io/html/infrastructure.html#transferable-objects.
     // This allows us to process the cropping of each image in the backgound, keeping the UI responsive.
+    // This means that we've stuffed all the supporting functions inside the main one, which is perhaps not the best coding style.
+    // This could be improved by including a build step that build the web-worked enabled function from its constituent parts.
     this.calcCroppingBounds = function (imageBytes, width, height) {
 
         // todo: Make these magic numbers configurable? Through trial and error they work well for the general case...
@@ -302,7 +304,7 @@ var MagicCrop = function () {
                     modes.sort(limit === 'min' ? asc : desc);
                     result[key] = modes[0];
                     
-                    // that's some really hairy sh.t... there is probably a more elegant way of doing it
+                    // there is probably a more elegant way of expressing the above
                 });
             });
 
