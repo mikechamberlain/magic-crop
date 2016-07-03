@@ -95,7 +95,7 @@ Algorithm is:
  4. For each of the 4 potential directional bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
  5. Apply this crop region to our original image.
  
-Take a look at the questionable [code](https://github.com/mikechamberlain/magic-crop/blob/master/src/magicCrop.js) for more details.
+Take a look at the [code](https://github.com/mikechamberlain/magic-crop/blob/master/src/magicCrop.js) for more details.
     
 Crop Magic iPhone App
 ---------------------
