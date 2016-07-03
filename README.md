@@ -11,6 +11,10 @@ The algorithm is application/image agnostic and has been tested with screenshots
 
 ![Extraction](https://raw.githubusercontent.com/mikechamberlain/magic-crop/master/test/images/extracted.jpg)
 
+What this doesn't do
+--------------------
+* Automatically crop your ex out of photos - it's only designed to work on screenshots of photos that appear within the context of application chrome.
+
 Installation
 ------------
 ```shell
