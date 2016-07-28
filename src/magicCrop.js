@@ -19,7 +19,7 @@ var MagicCrop = function () {
     // 2. can take advantage of *WebWorker transferable objects*: http://w3c.github.io/html/infrastructure.html#transferable-objects.
     // This allows us to process the cropping of each image in the backgound, keeping the UI responsive.
     // This means that we've stuffed all the supporting functions inside the main one, which is perhaps not the best coding style.
-    // This could be improved by including a build step that build the web-worked enabled function from its constituent parts.
+    // This could be improved by including a build step that builds the web-worked enabled function from its constituent parts.
     this.calcCroppingBounds = function (imageBytes, width, height) {
 
         // todo: Make these magic numbers configurable? Through trial and error they work well for the general case...
