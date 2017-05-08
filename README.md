@@ -75,6 +75,7 @@ npm run demo
 ```
 
 The `index.html` page will open in your browser.
+
 Development
 -----------
 Clone, install dev dependencies, then run the tests:
