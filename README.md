@@ -3,9 +3,9 @@ MagicCrop
 
 A JavaScript library to automatically detect and extract a photo from a screenshot.
 
-Why use this? Many apps don't allow you to save images to your camera roll. You can work around this by taking a screenshot of the photo and manually cropping it using a third party app, like Photoshop Express.
+Why use this? Many apps don't allow you to save images to your camera roll. You _could_ work around this by taking a screenshot of the photo and manually cropping it using a third party app, like Photoshop Express.
 
-This library attempts to automate that process.  Give it a screenshot containing a photo, and it will detect the cropping bounds of the photo and output a new HTML Canvas element containing the cropped image.
+However, this library attempts to automate that process.  Give it a screenshot containing a photo, and it will detect the cropping bounds of the photo and output a new HTML Canvas element containing the cropped image.
 
 The algorithm is application/image agnostic and has been tested with screenshots taken from many different apps.
 
