@@ -5,7 +5,9 @@ A JavaScript library to automatically detect and extract a photo from a screensh
 
 Why use this? Many apps don't allow you to save images to your camera roll. You _could_ work around this by taking a screenshot of the photo and manually cropping it using a third party app, like Photoshop Express.
 
-However, this library attempts to automate that process.  Give it a screenshot containing a photo, and it will detect the cropping bounds of the photo and output a new HTML Canvas element containing the cropped image.
+But that sucks.
+
+This library attempts to automate the process.  Give it a screenshot containing a photo, and it will magically detect the cropping bounds of the photo and output a new HTML Canvas element containing the cropped image.
 
 The algorithm is application/image agnostic and has been tested with screenshots taken from many different apps.
 
@@ -95,10 +97,10 @@ for the given the [ImageData](https://developer.mozilla.org/en/docs/Web/API/Imag
 
 Algorithm is:
  1. Calculate the 3 most popular colors across the entire image. Consider these our *background colors*.
- 2. Sample some "randomly" distributed points around the image, and from each point work in all four directions towards each side.
- 3. If, in any direction, we hit a background color, OR we make it to the edge, then store this as a potential cropping bound for that side.
- 4. For each of the 4 potential directional bounds calculated above, choose the most popular (mode) for each edge, to represent our final crop region.
- 5. Apply this crop region to our original image.
+ 2. Sample some randomly distributed points around the image, and from each point work in all four directions towards each side.
+ 3. If, in any direction, we hit a background color or the edge of the image, then store this as a potential cropping bound for that side.
+ 4. For each side's potential bound calculated in 2, choose the most popular (mode) for each edge. This represents our final crop region.
+ 5. Crop the original image to these bounds.
  
 Take a look at the [code](https://github.com/mikechamberlain/magic-crop/blob/master/src/magicCrop.js) for more details.
     
